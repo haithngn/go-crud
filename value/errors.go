@@ -1,4 +1,4 @@
-package main
+package value
 
 type EntityError struct {
 	Code   int32

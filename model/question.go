@@ -1,4 +1,4 @@
-package main
+package model
 
 type Question struct {
 	ID      int    `json:"id"`

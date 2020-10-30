@@ -1,16 +1,21 @@
 package main
 
-import "net/http"
+import (
+	"github.com/haithngn/go-crud/controller"
+	"github.com/haithngn/go-crud/db"
+	"log"
+	"net/http"
+)
 
 func main() {
-	storage := Storage{[]Question{}}
-	handler := RequestHandler{storage}
+	database, err := db.OpenDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	storage := db.Storage{Database: database}
 
-	//Home
-	http.HandleFunc("/", handler.Home)
-
-	//Handle request on question endpoint
-	http.HandleFunc("/question", handler.Question)
+	handler := Router{HomeCtrlr: controller.HomeController{}, QuestionCtrlr: controller.QuestionController{storage}}
+	handler.Setup()
 
 	http.ListenAndServe(":1313", nil)
 }
